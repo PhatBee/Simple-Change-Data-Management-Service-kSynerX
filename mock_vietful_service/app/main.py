@@ -54,6 +54,7 @@ def get_products(
 ):
     '''
     Endpoint: Trả về danh sách sản phẩm tồn kho của Vietful
+    CDMS Channel 1 (Scheduled Polling) sẽ định kỳ gọi vào API này để lấy dữ liệu
     '''
     products = list(INVENTORY_DB.values())
     if category:
