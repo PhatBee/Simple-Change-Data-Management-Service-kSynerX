@@ -6,14 +6,14 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: phatbee
-      POSTGRES_DB: test_cdms
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cdms_db
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d test_cdms"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cdms_db"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -38,7 +38,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@phatbee:5432/test_cdms
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/cdms_db
       VIETFUL_SERVICE_URL: http://mock_vietful_service:8001
       POLL_INTERVAL_SECONDS: 20
       ENVIRONMENT: production
