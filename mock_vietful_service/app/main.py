@@ -29,16 +29,16 @@ def generate_initial_products(count: int = 15,) -> Dict[str, Product]:
     # Hàm sinh danh sách ban đầu bằng Faker
     products = {}
     for index in range (1, count + 1):
-        sku = f"VF-{1000 + i}"
+        sku = f"VF-{1000 + index}"
         now_str = datetime.now(timezone.utc).isoformat()
         product = Product(
             sku = sku,
             name = fake.catch_phrase(),
             category = random.choice(CATEGORIES),
             price = round(random.uniform(250000, 13000000), 0),
-            quantity = random.randInt(5, 100),
+            quantity = random.randint(5, 100),
             status = "ACTIVE",
-            uploaded_at = now_str,
+            updated_at = now_str,
         )
         products[sku] = product
     return products
@@ -47,14 +47,14 @@ def generate_initial_products(count: int = 15,) -> Dict[str, Product]:
 INVENTORY_DB = generate_initial_products(15)
 
 
-@app.get("/api/products", response_model=List[Product], tags="[Products]")
+@app.get("/api/products", response_model=List[Product], tags=["Products"])
 def get_products(
     category: Optional[str] = Query(None, description = "Lọc theo danh mục"),
     limit: int = Query(50, ge = 1, le = 100, description = "Số lượng sản phẩm tối đa trả về"),
 ):
     '''
-    Endpoint: Trả về danh sách sản phẩm tồn kho của Vietful
-    CDMS Channel 1 (Scheduled Polling) sẽ định kỳ gọi vào API này để lấy dữ liệu
+    Endpoint: Trả về danh sách sản phẩm tồn kho của Vietful.
+    CDMS Channel 1 (Scheduled Polling) sẽ định kỳ gọi vào API này để lấy dữ liệu.
     '''
     products = list(INVENTORY_DB.values())
     if category:

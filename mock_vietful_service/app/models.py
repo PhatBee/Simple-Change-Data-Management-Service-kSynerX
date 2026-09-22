@@ -19,7 +19,7 @@ class Product(BaseModel):
     # Số lượng tồn tho
     quantity: int = Field(..., ge=0, description = "Số lượng tồn kho")
     # Trạng thái kinh doanh
-    status: str = Field(..., default = "ACTIVE",description = "Trạng thái: ACTIVE, OUT_OF_STOCK, DISCONTINUED")
+    status: str = Field(default = "ACTIVE",description = "Trạng thái: ACTIVE, OUT_OF_STOCK, DISCONTINUED")
     # Thời điểm cập nhật cuối
     updated_at: str = Field(..., description = "Thời gian cập nhật gần nhất")
 
@@ -27,4 +27,4 @@ class ProductMutationRequest(BaseModel):
     # Dùng cho API giả lập thay đổi dữ liệu product để test phát hiện thay đổi 
     sku: Optional[str] = Field(None, description = "SKU cần đổi, nếu trống sẽ lấy ngẫu nhiên"),
     price: Optional[float] = Field(None, description = "Giá mới")
-    quantity: Optional[int] = Field(Nonte, description = "Số lượng mới")
+    quantity: Optional[int] = Field(None, description = "Số lượng mới")
