@@ -1,4 +1,7 @@
 # Simple Change Data Management Service (CDMS) - Prototype
+
+---
+
 **Dự án:** Change Data Management Service (Prototype)  
 **Tác giả:** Ong Vĩnh Phát
 **Ngày hoàn thành:** 22/09/2026
@@ -23,11 +26,6 @@ Hệ thống giải quyết bài toán:
 ## 2. Kiến trúc hệ thống & Luồng dữ liệu
 
 ### 2.1 Sơ đồ luồng dữ liệu (Data Flow Diagram)
-
-![Sơ đồ luồng dữ liệu CDMS](./assets/mermaid-diagram-2026-09-22-224735.png)
-
-<details>
-<summary><b>Chi tiết mã nguồn sơ đồ (Mermaid Code)</b> <i>(Nhấp để mở rộng)</i></summary>
 
 ```mermaid
 flowchart TD
@@ -57,8 +55,7 @@ flowchart TD
         WRITE --> T2[(product_change_logs: Lịch sử từng lần thay đổi)]
     end
 ```
-
-</details>
+**Hình ảnh sơ đồ** (Link dự phòng nếu Render không hiển thị): [Mermaid Diagrams](assets\mermaid-diagram-2026-09-22-224735.png)
 
 ### 2.2 Thiết kế Cơ sở dữ liệu (PostgreSQL)
 
