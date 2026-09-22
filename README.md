@@ -3,8 +3,8 @@
 ---
 
 **Dự án:** Change Data Management Service (Prototype)  
-**Tác giả:** Ong Vĩnh Phát
-**Ngày hoàn thành:** 22/09/2026
+**Tác giả:** Ong Vĩnh Phát  
+**Ngày hoàn thành:** 22/09/2026  
 **Công nghệ sử dụng:** Python 3.11, FastAPI, PostgreSQL 15, SQLAlchemy, APScheduler, Pandas, Docker & Docker Compose  
 
 ---
@@ -55,7 +55,7 @@ flowchart TD
         WRITE --> T2[(product_change_logs: Lịch sử từng lần thay đổi)]
     end
 ```
-**Hình ảnh sơ đồ** (Link dự phòng nếu Render không hiển thị): [Mermaid Diagrams](assets\mermaid-diagram-2026-09-22-224735.png)
+**Hình ảnh sơ đồ** (Link dự phòng nếu Render không hiển thị): [Mermaid Diagrams](./assets/mermaid-diagram-2026-09-22-224735.png)
 
 ### 2.2 Thiết kế Cơ sở dữ liệu (PostgreSQL)
 
