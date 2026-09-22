@@ -46,6 +46,11 @@ def generate_initial_products(count: int = 15,) -> Dict[str, Product]:
 # Khởi tạo dữ liệu kho hàng khi chạy
 INVENTORY_DB = generate_initial_products(15)
 
+@app.get("/health", tags=["System"])
+def health_check():
+    """Kiểm tra sức khỏe của Mock Service"""
+    return {"status": "ok", "service": "mock_vietful_service", "total_products": len(INVENTORY_DB)}
+
 
 @app.get("/api/products", response_model=List[Product], tags=["Products"])
 def get_products(
@@ -94,3 +99,11 @@ def mutate_product(request: ProductMutationRequest):
     )
     INVENTORY_DB[target_sku] = updatedProduct
     return updatedProduct
+
+@app.post("/api/products/reset", tags=["Testing Simulation"])
+def reset_products():
+    """Reset danh sách sản phẩm về trạng thái gốc để kiểm thử lại từ đầu"""
+    global INVENTORY_DB
+    Faker.seed(42)
+    INVENTORY_DB = generate_initial_products(15)
+    return {"message": "Đã reset kho hàng về trạng thái mẫu ban đầu", "total_products": len(INVENTORY_DB)}

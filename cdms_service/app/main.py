@@ -72,3 +72,13 @@ app = FastAPI(
 app.include_router(webhook.router)
 app.include_router(excel_upload.router)
 app.include_router(changes.router)
+
+@app.get("/health", tags=["System"])
+def health_check():
+    """Kiểm tra trạng thái hoạt động của dịch vụ CDMS"""
+    return {
+        "status": "healthy",
+        "service": "cdms_service",
+        "scheduler_running": scheduler.running,
+        "poll_interval_seconds": settings.POLL_INTERVAL_SECONDS,
+    }
