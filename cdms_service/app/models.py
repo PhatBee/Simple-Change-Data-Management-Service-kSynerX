@@ -21,7 +21,7 @@ class ProductModel(Base):
 
     id = Column(Integer, primary_key = True, index = True, autoincrement = True)
     sku = Column(String(100), unique = True, index = True, nullable = False)
-    name = Column(String(255, nullable = False))
+    name = Column(String(255), nullable = False)
     category = Column(String(100), nullable = True)
     price = Column(Float, nullable = False, default = 0)
     quantity = Column(Integer, nullable = False, default = 0)
@@ -47,14 +47,14 @@ class ProductChangeLogModel(Base):
     sku = Column(String(100), index = True, nullable = False)
 
     # Loại thay đổi: CREATED hoặc UPDATED
-    changed_type = Column(String(20), nullable = False)
+    change_type = Column(String(20), nullable = False)
 
     # Mã hash của phiên bản này
     payload_hash = Column(String(64), nullable = False)
 
     # Snapshot JSON
     previous_data = Column(Text, nullable = True)
-    current_Data = Column(Text, nullable = False)
+    current_data = Column(Text, nullable = False)
 
     # Kênh đẩy dữ liệu: POLLING, WEBHOOK, EXCEK_UPLOAD
     source_channel = Column(String(50), nullable = False)

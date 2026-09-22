@@ -10,7 +10,7 @@ import json
 import hashlib
 from typing import Dict, Any, List, Tuple
 from sqlalchemy.orm import Session
-from ..model import ProductModel, ProductChangeLogModel
+from ..models import ProductModel, ProductChangeLogModel
 
 def calculate_product_hash(data: Dict[str, Any]) -> str:
     '''
@@ -23,8 +23,8 @@ def calculate_product_hash(data: Dict[str, Any]) -> str:
         "name": str(data.get("name", "")).strip(),
         "category": str(data.get("category", "")).strip(),
         "price": round(float(data.get("price", 0)), 0),
-        "quantity": int(data.get("quantity"), 0),
-        "status": str(data.get("status"), "ACTIVE").strip().upper(),
+        "quantity": int(data.get("quantity", 0)),
+        "status": str(data.get("status", "ACTIVE")).strip().upper(),
     }
 
     # Chuyển thành JSON có sắp xếp
@@ -87,7 +87,7 @@ def process_single_product(db: Session, item: Dict[str, Any], source_channel = s
             current_data = current_snapshot,
             source_channel = source_channel,
         )
-        db.add(changeLog)
+        db.add(changelog)
         return "CREATED"
 
     else:
@@ -110,7 +110,7 @@ def process_single_product(db: Session, item: Dict[str, Any], source_channel = s
         existing_product.name = item.get("name", existing_product.name)
         existing_product.category = item.get("category", existing_product.category)
         existing_product.price = float(item.get("price", existing_product.price))
-        existing_product.quantity = float(item.get("quantity", existing_product.quantity))
+        existing_product.quantity = int(item.get("quantity", existing_product.quantity))
         existing_product.status = item.get("status", existing_product.status)
         existing_product.current_hash = new_hash
         existing_product.version += 1
@@ -124,7 +124,7 @@ def process_single_product(db: Session, item: Dict[str, Any], source_channel = s
             current_data = current_snapshot,
             source_channel = source_channel,
         )
-        db.add(changeLog)
+        db.add(changelog)
         return "UPDATED"
 
 def process_batch(db: Session, items: List[Dict[str, Any]], source_channel: str) -> Dict[str, Any]:
