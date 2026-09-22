@@ -1,0 +1,52 @@
+services:
+  # 1. Cơ sở dữ liệu PostgreSQL lưu trạng thái sản phẩm và Change Logs
+  postgres:
+    image: postgres:15-alpine
+    container_name: cdms_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: phatbee
+      POSTGRES_DB: test_cdms
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d test_cdms"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Dịch vụ giả lập Vietful Inventory Service (FastAPI + Faker)
+  mock_vietful_service:
+    build:
+      context: ./mock_vietful_service
+      dockerfile: Dockerfile
+    container_name: mock_vietful_service
+    restart: always
+    ports:
+      - "8001:8001"
+
+  # 3. Dịch vụ Change Data Management Service (CDMS Core)
+  cdms_service:
+    build:
+      context: ./cdms_service
+      dockerfile: Dockerfile
+    container_name: cdms_service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@phatbee:5432/test_cdms
+      VIETFUL_SERVICE_URL: http://mock_vietful_service:8001
+      POLL_INTERVAL_SECONDS: 20
+      ENVIRONMENT: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mock_vietful_service:
+        condition: service_started
+
+volumes:
+  pgdata:
