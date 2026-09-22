@@ -11,6 +11,7 @@ import logging
 from .config import settings
 from .database import init_db
 from .services.poller import poll_vietful_inventory
+from .api import webhook, excel_upload, changes
 
 # Cấu hình logging
 logging.basicConfig(
@@ -66,3 +67,8 @@ app = FastAPI(
     version = "1.0.0",
     lifespan = lifespan,
 )
+
+# Đăng ký các router
+app.include_router(webhook.router)
+app.include_router(excel_upload.router)
+app.include_router(changes.router)
